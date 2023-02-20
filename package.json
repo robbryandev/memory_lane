@@ -9,15 +9,18 @@
     "start": "next start"
   },
   "dependencies": {
+    "@types/uuid": "^9.0.0",
+    "dotenv": "^16.0.3",
     "firebase": "^9.17.1",
     "next": "13.1.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "uuid": "^9.0.0",
     "zod": "^3.20.2"
   },
   "devDependencies": {
     "@types/eslint": "^8.21.1",
-    "@types/node": "^18.11.18",
+    "@types/node": "^18.14.0",
     "@types/prettier": "^2.7.2",
     "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.10",

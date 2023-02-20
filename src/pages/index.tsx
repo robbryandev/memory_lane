@@ -1,6 +1,7 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import Memory from "@/components/Memory";
+import MemoryForm from "@/components/MemoryForm";
 
 const Home: NextPage = () => {
   const lorem = "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Similique ut necessitatibus hic neque fuga saepe illum animi dolores perferendis, reiciendis, autem itaque, atque quidem adipisci et molestias officiis quaerat alias!"
@@ -12,7 +13,8 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Memory title="Title" description={lorem}/>
+        <MemoryForm/>
+        <Memory title="Title" description={lorem} author="Robert"/>
       </main>
     </>
   );

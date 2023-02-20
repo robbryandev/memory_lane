@@ -1,6 +1,7 @@
 type MemoryProps = {
     title: string,
-    description: string
+    description: string,
+    author: string
 }
 
 export default function Memory({...props}: MemoryProps) {
@@ -9,6 +10,7 @@ export default function Memory({...props}: MemoryProps) {
             <h1 className="text-3xl">{props.title}</h1>
             <hr className="border-gray-400 border-1 w-10/12 m-auto my-2"/>
             <p>{props.description}</p>
+            <p className="mt-2 text-gray-500">: {props.author} :</p>
         </div>
     )
 }

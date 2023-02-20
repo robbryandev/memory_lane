@@ -5,13 +5,7 @@ import { z } from "zod";
  * This way you can ensure the app isn't built with invalid env vars.
  */
 const server = z.object({
-  NODE_ENV: z.enum(["development", "test", "production"]),
-  FIREBASE_API_KEY: z.string(),
-  FIREBASE_AUTH_URL: z.string(),
-  FIREBASE_PROJECT_ID: z.string(),
-  FIREBASE_BUCKET: z.string(),
-  FIREBASE_SENDER_ID: z.string(),
-  FIREBASE_APP_ID: z.string()
+  NODE_ENV: z.enum(["development", "test", "production"])
 });
 
 /**
@@ -20,7 +14,13 @@ const server = z.object({
  * To expose them to the client, prefix them with `NEXT_PUBLIC_`.
  */
 const client = z.object({
-  // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
+  NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
+  NEXT_PUBLIC_FIREBASE_API_KEY: z.string(),
+  NEXT_PUBLIC_FIREBASE_AUTH_URL: z.string(),
+  NEXT_PUBLIC_FIREBASE_PROJECT_ID: z.string(),
+  NEXT_PUBLIC_FIREBASE_BUCKET: z.string(),
+  NEXT_PUBLIC_FIREBASE_SENDER_ID: z.string(),
+  NEXT_PUBLIC_FIREBASE_APP_ID: z.string()
 });
 
 /**
@@ -30,13 +30,13 @@ const client = z.object({
  */
 const processEnv = {
   NODE_ENV: process.env.NODE_ENV,
-  FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
-  FIREBASE_AUTH_URL: process.env.FIREBASE_AUTH_URL,
-  FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID,
-  FIREBASE_BUCKET: process.env.FIREBASE_BUCKET,
-  FIREBASE_SENDER_ID: process.env.FIREBASE_SENDER_ID,
-  FIREBASE_APP_ID: process.env.FIREBASE_APP_ID
-  // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
+  NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
+  NEXT_PUBLIC_FIREBASE_API_KEY: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  NEXT_PUBLIC_FIREBASE_AUTH_URL: process.env.NEXT_PUBLIC_FIREBASE_AUTH_URL,
+  NEXT_PUBLIC_FIREBASE_PROJECT_ID: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  NEXT_PUBLIC_FIREBASE_BUCKET: process.env.NEXT_PUBLIC_FIREBASE_BUCKET,
+  NEXT_PUBLIC_FIREBASE_SENDER_ID: process.env.NEXT_PUBLIC_FIREBASE_SENDER_ID,
+  NEXT_PUBLIC_FIREBASE_APP_ID: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
 };
 
 // Don't touch the part below
