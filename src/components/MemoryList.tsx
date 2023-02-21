@@ -9,7 +9,11 @@ import { getDocs, query, collection } from "firebase/firestore"
 import db from "@/utils/db"
 import type { MemoryType } from "./MemoryForm";
 
-export default function MemoryList() {
+export type ListType = {
+    setEdit: CallableFunction
+}
+
+export default function MemoryList({...props}: ListType) {
     const [memories, setMemories] = useState([] as MemoryType[])
     useEffect(() => {
         const unsub = onSnapshot(collection(db, "memories"), (snap) => {
@@ -32,7 +36,7 @@ export default function MemoryList() {
         <div>
             {memories.map((mem: MemoryType) => {
                 if (mem.id != null) {
-                    return <Memory key={mem.id} name={mem.name} title={mem.title} description={mem.description} />
+                    return <Memory key={mem.id} id={mem.id} name={mem.name} title={mem.title} description={mem.description} setEdit={props.setEdit} />
                 } else {
                     console.log("no id")
                     return null

@@ -3,9 +3,11 @@ import Head from "next/head";
 import Memory from "@/components/Memory";
 import MemoryForm from "@/components/MemoryForm";
 import MemoryList from "@/components/MemoryList";
+import { useState } from "react";
 
 const Home: NextPage = () => {
   const lorem = "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Similique ut necessitatibus hic neque fuga saepe illum animi dolores perferendis, reiciendis, autem itaque, atque quidem adipisci et molestias officiis quaerat alias!"
+  const [edit, setEdit] = useState("")
   return (
     <>
       <Head>
@@ -14,9 +16,15 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <MemoryForm/>
+        {
+          edit != "" ? (
+            <MemoryForm id={edit} setId={setEdit}/>
+          ) : (
+            <MemoryForm setId={setEdit}/>
+          )
+        }
         {/* <Memory title="Title" description={lorem} name="Robert"/> */}
-        <MemoryList/>
+        <MemoryList setEdit={setEdit}/>
       </main>
     </>
   );
