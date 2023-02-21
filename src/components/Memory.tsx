@@ -3,7 +3,7 @@ import { async } from "@firebase/util"
 import { deleteDoc, doc } from "firebase/firestore"
 import {MouseEvent} from "react"
 import {FaPen} from "react-icons/fa"
-import db from "@/utils/db"
+import {db} from "@/utils/firebase"
 
 type MemoryProps = {
     key?: string,

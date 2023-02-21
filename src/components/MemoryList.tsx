@@ -6,7 +6,7 @@ import Memory from "./Memory"
 import firebase from 'firebase/compat/app';
 import { QuerySnapshot, DocumentData, onSnapshot } from "firebase/firestore";
 import { getDocs, query, collection } from "firebase/firestore"
-import db from "@/utils/db"
+import {db} from "@/utils/firebase"
 import type { MemoryType } from "./MemoryForm";
 
 export type ListType = {

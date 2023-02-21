@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react"
-import db from "@/utils/db"
+import {db} from "@/utils/firebase"
 import { v4 } from "uuid"
 import { collection, doc, DocumentData, getDocs, Query, query, QuerySnapshot, updateDoc, where } from "firebase/firestore"
 import firebase from 'firebase/compat/app';
