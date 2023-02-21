@@ -1,11 +1,9 @@
 import type { FormEvent } from "react"
 import db from "@/utils/db"
-import type {DocumentReference, DocumentData} from "firebase/firestore"
-import { collection, addDoc, doc } from "firebase/firestore"; 
 import {v4} from "uuid"
-import {env} from "@/env.mjs"
 
-type MemoryType = {
+export type MemoryType = {
+    id?: string,
     name: string,
     title: string,
     description: string
@@ -46,21 +44,6 @@ export default function MemoryForm() {
         console.log(target.name.value)
         console.log(target.title.value)
         console.log(target.description.value)
-        // const randId: string = v4()
-        // const test = db.collection("memories").doc(randId).set({
-        //     name: thisMemory.name,
-        //     title: thisMemory.title,
-        //     description: thisMemory.description
-        // })
-        // .then((res) => {
-        //     console.error(`Res: ${JSON.stringify(res)}`)
-        // })
-        // .catch((error: string) => {
-        //     console.error(error); // this line can also throw, e.g. when console = {}
-        // })
-        // .finally(() => {
-        //     console.log(test)
-        // })
         await handleAdd(thisMemory)
     }
     return (
