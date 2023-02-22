@@ -10,6 +10,7 @@ import "animate.css"
 import Link from "next/link"
 import {useRouter} from "next/router"
 import type { MouseEvent } from "react";
+import { signOut } from "firebase/auth";
 
 const Home: NextPage = () => {
   const [edit, setEdit] = useState("")
@@ -33,6 +34,15 @@ const Home: NextPage = () => {
       <main>
         {auth.currentUser != null ? (
           <>
+          <button onClick={ev => {
+            signOut(auth)
+              .then(() => {
+                router.reload()
+              })
+              .catch((err) => {
+                console.log(err)
+              })
+          }} type="submit">Logout</button>
           <h1>
             {`Loggedin As ${auth.currentUser.email != null ? auth.currentUser.displayName : ""}`}
           </h1>
