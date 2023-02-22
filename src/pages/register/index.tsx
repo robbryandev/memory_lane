@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { type NextPage } from "next"
@@ -5,7 +6,8 @@ import Head from "next/head"
 import { auth } from "@/utils/firebase"
 import { useState } from "react"
 import type {FormEvent} from "react"
-import { createUserWithEmailAndPassword, sendEmailVerification, signOut, updateCurrentUser, UserCredential } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification, signOut, updateCurrentUser, updateProfile } from "firebase/auth";
+import type {UserCredential} from "firebase/auth"
 import {useRouter} from "next/router"
 
 const Register: NextPage = () => {
@@ -49,7 +51,10 @@ const Register: NextPage = () => {
                 console.log(err)
             }) 
             if (auth.currentUser != null) {
-                auth.currentUser.updateProfile({
+                // auth.currentUser.updateProfile({
+                //     displayName: target.name.value
+                // })
+                updateProfile(auth.currentUser, {
                     displayName: target.name.value
                 })
                 .then(() => {

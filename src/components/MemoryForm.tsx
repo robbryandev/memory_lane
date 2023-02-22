@@ -2,16 +2,17 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react"
-import {db} from "@/utils/firebase"
+import {auth, db} from "@/utils/firebase"
 import { v4 } from "uuid"
 import { collection, doc, DocumentData, getDocs, Query, query, QuerySnapshot, updateDoc, where } from "firebase/firestore"
 import firebase from 'firebase/compat/app';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 export type MemoryType = {
     id?: string,
-    name: string,
     title: string,
-    description: string
+    description: string,
+    owner: string
 }
 
 export type FormProps = {
@@ -21,7 +22,8 @@ export type FormProps = {
 
 export default function MemoryForm({ ...props }: FormProps) {
     const [mode, setMode] = useState("create")
-    const [formData, setFormData] = useState({ name: "", title: "", desc: "" })
+    const [formData, setFormData] = useState({ title: "", desc: "" })
+    const [user] = useAuthState(auth);
 
     function handleChange(e: ChangeEvent<HTMLInputElement>) {
         setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -34,7 +36,7 @@ export default function MemoryForm({ ...props }: FormProps) {
                     console.log(res.docs)
                     res.forEach((doc: DocumentData) => {
                         console.log(doc.id, " => ", doc.data());
-                        setFormData({name: doc.data().name, title: doc.data().title, desc: doc.data().description})
+                        setFormData({title: doc.data().title, desc: doc.data().description})
                     });
                     resolve(null)
                 })
@@ -59,9 +61,9 @@ export default function MemoryForm({ ...props }: FormProps) {
         return new Promise((resolve, reject) => {
             const randId: string = v4()
             db.collection("memories").doc(randId).set({
-                name: mem.name,
                 title: mem.title,
-                description: mem.description
+                description: mem.description,
+                owner: mem.owner
             })
                 .then((res) => {
                     console.log("pass")
@@ -83,10 +85,14 @@ export default function MemoryForm({ ...props }: FormProps) {
     }
 
     async function dbAdd(event: FormEvent) {
+        let userId = ""
+        if (user != null) {
+            userId = user.uid
+        }
         const thisMemory: MemoryType = {
-            name: formData.name,
             title: formData.title,
-            description: formData.desc
+            description: formData.desc,
+            owner: userId
         }
         await handleAdd(thisMemory)
     }
@@ -99,9 +105,9 @@ export default function MemoryForm({ ...props }: FormProps) {
             if (props.id != null) {
                 const edited = doc(db, "memories", props.id);
                 await updateDoc(edited, {
-                    name: formData.name,
                     title: formData.title,
-                    description: formData.desc
+                    description: formData.desc,
+                    owner: user.uid
                 });
             }
             setMode("create")
@@ -113,10 +119,6 @@ export default function MemoryForm({ ...props }: FormProps) {
     return (
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         <form onSubmit={ev => handleSubmit(ev)} className="p-6 w-2/5 md:w-1/5 bg-gray-300 shadow-lg m-12 text-center text-lg">
-            <label htmlFor="name">Name</label>
-            <br />
-            <input onChange={handleChange} value={formData.name} className="my-2 rounded-md shadow-sm text-center" id="name" name="name" type="text" required />
-            <br />
             <label htmlFor="title">Title</label>
             <br />
             <input onChange={handleChange} value={formData.title} className="my-2 rounded-md shadow-sm text-center" id="title" name="title" type="text" required />
@@ -125,7 +127,7 @@ export default function MemoryForm({ ...props }: FormProps) {
             <br />
             <input onChange={handleChange} value={formData.desc} className="my-2 rounded-md shadow-sm text-center" id="desc" name="desc" type="text" required />
             <br />
-            <button className="mt-4 p-1.5 bg-gray-400 rounded-md text-white" type="submit">{mode === "edit" ? "Edit" : "Add"} Memory</button>
+            <button className="mt-4 p-1.5 bg-gray-400 hover:bg-gray-500 rounded-md text-white" type="submit">{mode === "edit" ? "Edit" : "Add"} Memory</button>
         </form>
     )
 }

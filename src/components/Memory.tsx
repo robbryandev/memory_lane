@@ -10,8 +10,7 @@ type MemoryProps = {
     id: string,
     setEdit: CallableFunction,
     title: string,
-    description: string,
-    name: string
+    description: string
 }
 
 export default function Memory({...props}: MemoryProps) {
@@ -36,7 +35,6 @@ export default function Memory({...props}: MemoryProps) {
             <h1 className="text-3xl">{props.title}</h1>
             <hr className="border-gray-400 border-1 w-10/12 m-auto my-2"/>
             <p>{props.description}</p>
-            <p className="mt-2 text-gray-500">: {props.name} :</p>
             <button onClick={deleteSelf} className="py-1.5 px-3.5 mt-4 rounded-md bg-red-500 text-white">X</button>
             <button onClick={editSelf} className="pt-2 pb-3 px-3 mt-4 ml-2s rounded-md bg-green-500 text-white">
                 <FaPen/>

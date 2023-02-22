@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { type NextPage } from "next"
@@ -20,12 +21,19 @@ const Login: NextPage = () => {
         }
         signInWithEmailAndPassword(auth, target.email.value, target.password.value)
             .then(() => {
-                setTimeout(() => {
-                    router.push("/")
-                        .catch((err) => {
-                            console.log(err)
-                        })
-                }, 1000)
+                if (auth.currentUser != null) {
+                    if (!auth.currentUser.emailVerified) {
+                        setPassMsg("Must verify email to login")
+                        setInvalid(true)
+                    } else {
+                        setTimeout(() => {
+                            router.push("/")
+                                .catch((err) => {
+                                    console.log(err)
+                                })
+                        }, 1000)
+                    }
+                }
             })
             .catch((error: any) => {
                 console.log(`Error: ${error}`)

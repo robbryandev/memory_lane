@@ -1,9 +1,10 @@
-// Import the functions you need from the SDKs you need
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import 'firebase/compat/storage';
 import { env } from "@/env.mjs"
+import { browserSessionPersistence, setPersistence, getAuth } from "firebase/auth";
 
 const firebaseConfig = {
     apiKey: env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -16,7 +17,13 @@ const firebaseConfig = {
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebaseApp.firestore()
-const auth = firebaseApp.auth()
+const auth = getAuth(firebaseApp);
+(async () => {
+    await setPersistence(auth, browserSessionPersistence)
+})()
+.catch((err: string) => {
+    console.log(err)
+});
 
 export default firebaseApp;
-export {db, auth}
+export { db, auth }
